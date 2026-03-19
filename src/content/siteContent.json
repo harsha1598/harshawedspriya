@@ -1,0 +1,126 @@
+{
+  "theme": {
+    "colors": {
+      "background": "#f8f0dd",
+      "surface": "rgba(126, 26, 34, 0.08)",
+      "surfaceStrong": "rgba(91, 18, 23, 0.82)",
+      "text": "#4b1816",
+      "muted": "#7b4f33",
+      "accent": "#9f1d22",
+      "accentSoft": "#f1c75b",
+      "line": "rgba(159, 29, 34, 0.18)",
+      "leaf": "#3f6b2a",
+      "leafSoft": "#dfe8c8"
+    },
+    "fonts": {
+      "heading": "cormorant",
+      "body": "manrope"
+    },
+    "heroOverlay": "linear-gradient(180deg, rgba(105, 15, 20, 0.18) 0%, rgba(86, 12, 16, 0.88) 100%)"
+  },
+  "nav": {
+    "brandLabel": "శుభ వివాహ ఆహ్వానం",
+    "mapButtonLabel": "Open Location",
+    "links": [
+      { "label": "Home", "href": "#home" },
+      { "label": "Story", "href": "#story" },
+      { "label": "Couple", "href": "#couple" },
+      { "label": "Schedule", "href": "#schedule" },
+      { "label": "Venue", "href": "#venue" },
+      { "label": "Gallery", "href": "#gallery" }
+    ]
+  },
+  "hero": {
+    "kicker": "Mangala Vaidika Invitation",
+    "subKicker": "Traditional Andhra Telugu Wedding",
+    "buttons": {
+      "primary": { "label": "See The Celebration", "href": "#schedule" },
+      "secondary": { "label": "Find The Venue", "href": "#venue" }
+    },
+    "images": {
+      "primary": { "src": "/images/hero-couple.svg" },
+      "secondary": { "src": "/images/hero-detail.svg" }
+    }
+  },
+  "couple": {
+    "enabled": true,
+    "brideName": "Raju Lakshmi Priyanka",
+    "groomName": "Reddi Harsha Vardhan",
+    "brideDescription": "A joyful dreamer with a love for quiet mornings, handwritten notes, and the kind of laughter that fills a room.",
+    "groomDescription": "A calm romantic with a love for music, sunsets, and making every ordinary day feel just a little more beautiful.",
+    "bridePhoto": "/images/bride-portrait.svg",
+    "groomPhoto": "/images/groom-portrait.svg",
+    "sectionEyebrow": "The Couple",
+    "sectionTitle": "Two hearts, one unforgettable beginning",
+    "sectionBody": "A warm celebration of love, family, and the beautiful life ahead."
+  },
+  "event": {
+    "tagline": "Together with their families",
+    "invitationLine": "invite you to celebrate their wedding and share in an evening filled with love, music, and joy.",
+    "fullDate": "Friday, 1 May 2026",
+    "ceremonyTime": "7:00 PM onwards",
+    "footerNote": "With love, we cannot wait to celebrate this moment with you."
+  },
+  "venue": {
+    "enabled": true,
+    "eyebrow": "Venue Details",
+    "title": "An evening wrapped in lights, roses, and celebration",
+    "description": "Join us at a romantic lakeside venue designed for a candlelit ceremony and a joyful reception under the stars.",
+    "name": "TTD Kalyana Mandapam, Vizianagaram",
+    "address": "4C56+H92, Ayodya Maidanam Area, Jonnaguddi Area, Vizianagaram, Andhra Pradesh 535002",
+    "landmark": "Beside Gurajada Apparao Kala Vedika near SVC Ranjini Theatre Opp to Kota, valet and guest assistance available at the main entrance.",
+    "phone": "+91-6303661465",
+    "mapUrl": "https://maps.app.goo.gl/TDHyuRU8N9m9nNT18"
+  },
+  "story": {
+    "enabled": true,
+    "eyebrow": "Our Story",
+    "title": "From a gentle hello to a forever promise",
+    "intro": "Their story began with a conversation that lingered longer than expected and a feeling that arrived quietly, then stayed.",
+    "paragraphs": [
+      "What followed was a friendship filled with small rituals, shared playlists, long drives, and countless little moments that slowly turned into a life imagined together.",
+      "Now, surrounded by the people they love most, they begin a new chapter and invite you to witness a celebration shaped by warmth, beauty, and heartfelt joy."
+    ],
+    "quote": "Every love story is beautiful, but this one feels like home."
+  },
+  "schedule": {
+    "enabled": true,
+    "eyebrow": "Wedding Timeline",
+    "title": "A graceful evening of vows and celebration",
+    "description": "Everything you need for the day, arranged so guests can move through the celebration with ease.",
+    "events": [
+
+      {
+        "time": "7:00 PM",
+        "title": "Reception Dinner",
+        "details": "Dinner service opens with curated live music and family toasts."
+      },
+      {
+        "time": "8:30 PM",
+        "title": "First Dance & Celebration",
+        "details": "An evening of dancing, laughter, and memories with the people who matter most."
+      }
+    ]
+  },
+  "gallery": {
+    "enabled": true,
+    "eyebrow": "Moments",
+    "title": "A glimpse into their world",
+    "description": "A romantic collage designed to feel cinematic on desktop and intimate on mobile.",
+    "variant": "stacked",
+    "images": [
+      { "src": "/images/gallery-1.svg", "alt": "Couple walking together" },
+      { "src": "/images/gallery-2.svg", "alt": "Hands holding flowers" },
+      { "src": "/images/gallery-3.svg", "alt": "Elegant wedding decor" },
+      { "src": "/images/gallery-4.svg", "alt": "Romantic portrait silhouette" }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Stay Connected",
+    "title": "We would love to celebrate with you",
+    "description": "For travel help, arrival coordination, or any guest support, please reach out to the wedding hosts.",
+    "phone": "+91-6303661465",
+    "phoneLabel": "Call Wedding Host",
+    "email": "harshapari98@gmail.com"
+  }
+}
