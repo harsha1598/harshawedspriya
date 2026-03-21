@@ -32,14 +32,14 @@
   },
   "hero": {
     "kicker": "Mangala Vaidika Invitation",
-    "subKicker": "Traditional Andhra Telugu Wedding",
+    "subKicker": "Raju Lakshmi Priyanka & Reddi Harsha Vardhan",
     "buttons": {
       "primary": { "label": "See The Celebration", "href": "#schedule" },
       "secondary": { "label": "Find The Venue", "href": "#venue" }
     },
     "images": {
-      "primary": { "src": "/images/hero-couple.svg" },
-      "secondary": { "src": "/images/hero-detail.svg" }
+      "primary": { "src": "/images/couple-2.jpg" },
+      "secondary": { "src": "/images/couple-1.jpg" }
     }
   },
   "couple": {
@@ -48,8 +48,8 @@
     "groomName": "Reddi Harsha Vardhan",
     "brideDescription": "A joyful dreamer with a love for quiet mornings, handwritten notes, and the kind of laughter that fills a room.",
     "groomDescription": "A calm romantic with a love for music, sunsets, and making every ordinary day feel just a little more beautiful.",
-    "bridePhoto": "/images/bride-portrait.svg",
-    "groomPhoto": "/images/groom-portrait.svg",
+    "bridePhoto": "/images/priya-bride.jpg",
+    "groomPhoto": "/images/groom-main.JPG",
     "sectionEyebrow": "The Couple",
     "sectionTitle": "Two hearts, one unforgettable beginning",
     "sectionBody": "A warm celebration of love, family, and the beautiful life ahead."
@@ -109,10 +109,10 @@
     "description": "A romantic collage designed to feel cinematic on desktop and intimate on mobile.",
     "variant": "stacked",
     "images": [
-      { "src": "/images/gallery-1.svg", "alt": "Couple walking together" },
-      { "src": "/images/gallery-2.svg", "alt": "Hands holding flowers" },
-      { "src": "/images/gallery-3.svg", "alt": "Elegant wedding decor" },
-      { "src": "/images/gallery-4.svg", "alt": "Romantic portrait silhouette" }
+      { "src": "/images/couple-1.jpg", "alt": "Couple walking together" },
+      { "src": "/images/couple-2.jpg", "alt": "Hands holding flowers" },
+      { "src": "/images/couple-3.jpg", "alt": "Elegant wedding decor" },
+      { "src": "/images/couple-4.jpg", "alt": "Romantic portrait silhouette" }
     ]
   },
   "contact": {
