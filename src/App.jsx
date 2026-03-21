@@ -5,6 +5,17 @@ const fontOptions = {
   manrope: '"Manrope", sans-serif',
 };
 
+function withBasePath(path) {
+  if (!path || /^https?:\/\//.test(path)) {
+    return path;
+  }
+
+  const normalizedBase = import.meta.env.BASE_URL || '/';
+  const normalizedPath = path.replace(/^\/+/, '');
+
+  return `${normalizedBase}${normalizedPath}`;
+}
+
 function SectionTitle({ eyebrow, title, body, align = 'left' }) {
   return (
     <div className={`section-title section-title--${align}`}>
@@ -78,10 +89,10 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
       </div>
       <div className="hero__visuals" aria-hidden="true">
         <figure className="hero__frame hero__frame--main">
-          <img src={heroImages.primary.src} alt="" />
+          <img src={withBasePath(heroImages.primary.src)} alt="" />
         </figure>
         <figure className="hero__frame hero__frame--accent">
-          <img src={heroImages.secondary.src} alt="" />
+          <img src={withBasePath(heroImages.secondary.src)} alt="" />
         </figure>
       </div>
     </section>
@@ -106,7 +117,7 @@ function CoupleCard({ person }) {
   return (
     <article className="couple-card">
       <div className="couple-card__image">
-        <img src={person.photo} alt={person.alt} loading="lazy" />
+        <img src={withBasePath(person.photo)} alt={person.alt} loading="lazy" />
       </div>
       <div className="couple-card__body">
         <p className="eyebrow">{person.role}</p>
@@ -205,7 +216,7 @@ function Gallery({ gallery }) {
       <div className={`gallery__grid gallery__grid--${gallery.variant}`}>
         {gallery.images.map((image) => (
           <figure key={image.src} className="gallery__item">
-            <img src={image.src} alt={image.alt} loading="lazy" />
+            <img src={withBasePath(image.src)} alt={image.alt} loading="lazy" />
           </figure>
         ))}
       </div>
