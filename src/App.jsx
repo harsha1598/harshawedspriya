@@ -16,6 +16,16 @@ function withBasePath(path) {
   return `${normalizedBase}${normalizedPath}`;
 }
 
+function buildMapEmbedUrl(venue) {
+  const query = [venue.name, venue.address].filter(Boolean).join(', ');
+
+  if (!query) {
+    return '';
+  }
+
+  return `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
+}
+
 function SectionTitle({ eyebrow, title, body, align = 'left' }) {
   return (
     <div className={`section-title section-title--${align}`}>
@@ -185,6 +195,8 @@ function Timeline({ schedule }) {
 }
 
 function VenueCard({ venue }) {
+  const mapEmbedUrl = buildMapEmbedUrl(venue);
+
   return (
     <section className="venue panel" id="venue">
       <div className="venue__card">
@@ -204,6 +216,17 @@ function VenueCard({ venue }) {
             </a>
           </div>
         </div>
+        {mapEmbedUrl ? (
+          <div className="venue__map-shell">
+            <iframe
+              className="venue__map"
+              title={`${venue.name} map`}
+              src={mapEmbedUrl}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   );

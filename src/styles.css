@@ -465,6 +465,22 @@ img {
   gap: 0.85rem;
 }
 
+.venue__map-shell {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(159, 29, 34, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 249, 238, 0.86);
+  box-shadow: 0 18px 35px rgba(116, 56, 14, 0.1);
+}
+
+.venue__map {
+  display: block;
+  width: 100%;
+  min-height: 22rem;
+  border: 0;
+}
+
 .gallery__grid {
   display: grid;
   gap: 1rem;
@@ -580,6 +596,10 @@ img {
 
   .gallery__grid--stacked .gallery__item:nth-child(4) {
     grid-area: side-three;
+  }
+
+  .venue__map {
+    min-height: 28rem;
   }
 }
 
