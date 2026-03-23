@@ -44,35 +44,6 @@ const sparkleItems = Array.from({ length: 14 }, (_, index) => ({
   duration: `${8 + (index % 5) * 1.6}s`,
 }));
 
-function TempleDecor() {
-  return (
-    <div className="hero__temple" aria-hidden="true">
-      <div className="hero__temple-bg">
-        <span className="hero__gopuram hero__gopuram--left" />
-        <span className="hero__gopuram hero__gopuram--center" />
-        <span className="hero__gopuram hero__gopuram--right" />
-      </div>
-      <div className="hero__garland">
-        {Array.from({ length: 9 }, (_, index) => (
-          <span key={index} />
-        ))}
-      </div>
-      <div className="hero__bells">
-        {Array.from({ length: 3 }, (_, index) => (
-          <span key={index} className="hero__bell">
-            <i />
-          </span>
-        ))}
-      </div>
-      <div className="hero__silhouette">
-        <span />
-        <span />
-        <span />
-      </div>
-    </div>
-  );
-}
-
 function SparkleField() {
   return (
     <div className="sparkles" aria-hidden="true">
@@ -117,9 +88,17 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
   return (
     <section className="hero reveal-on-scroll is-visible" id="home">
       <div className="hero__backdrop" />
-      <TempleDecor />
+      <div className="hero__light-rays" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
       <SparkleField />
       <div className="hero__content">
+        <div className="hero__arch" aria-hidden="true">
+          <span className="hero__arch-line hero__arch-line--outer" />
+          <span className="hero__arch-line hero__arch-line--inner" />
+        </div>
         <div className="hero__ornament" aria-hidden="true">
           <span />
           <span />

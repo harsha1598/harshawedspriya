@@ -75,13 +75,13 @@
   "story": {
     "enabled": true,
     "eyebrow": "Our Story",
-    "title": "From a gentle hello to a forever promise",
-    "intro": "Their story began with a conversation that lingered longer than expected and a feeling that arrived quietly, then stayed.",
+    "title": "From college corridors to a forever promise",
+    "intro": "Their story began as collegemates nearly a decade ago, with familiar smiles, shared classrooms, and conversations that slowly became the best part of each day.",
     "paragraphs": [
-      "What followed was a friendship filled with small rituals, shared playlists, long drives, and countless little moments that slowly turned into a life imagined together.",
-      "Now, surrounded by the people they love most, they begin a new chapter and invite you to witness a celebration shaped by warmth, beauty, and heartfelt joy."
+      "Over the years, friendship turned into trust, trust turned into love, and the ordinary moments of college life became the foundation of a bond that only grew stronger with time.",
+      "Now, after around ten years of knowing each other, they step into a new chapter surrounded by family, memories, and the people who have watched their story become something truly unforgettable."
     ],
-    "quote": "Every love story is beautiful, but this one feels like home."
+    "quote": "We found forever in a friendship that began years ago."
   },
   "schedule": {
     "enabled": true,
@@ -105,8 +105,8 @@
   "gallery": {
     "enabled": true,
     "eyebrow": "Moments",
-    "title": "A glimpse into their world",
-    "description": "A romantic collage designed to feel cinematic on desktop and intimate on mobile.",
+    "title": "A decade in moments",
+    "description": "A romantic collage of memories, companionship, and the quiet magic of growing together over the years.",
     "variant": "stacked",
     "images": [
       { "src": "/images/couple-1.jpg", "alt": "Couple walking together" },
