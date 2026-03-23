@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import siteContent from './content/siteContent.json';
 
 const fontOptions = {
@@ -36,6 +37,60 @@ function SectionTitle({ eyebrow, title, body, align = 'left' }) {
   );
 }
 
+const sparkleItems = Array.from({ length: 14 }, (_, index) => ({
+  id: index,
+  left: `${6 + index * 6.4}%`,
+  delay: `${(index % 7) * 0.8}s`,
+  duration: `${8 + (index % 5) * 1.6}s`,
+}));
+
+function TempleDecor() {
+  return (
+    <div className="hero__temple" aria-hidden="true">
+      <div className="hero__temple-bg">
+        <span className="hero__gopuram hero__gopuram--left" />
+        <span className="hero__gopuram hero__gopuram--center" />
+        <span className="hero__gopuram hero__gopuram--right" />
+      </div>
+      <div className="hero__garland">
+        {Array.from({ length: 9 }, (_, index) => (
+          <span key={index} />
+        ))}
+      </div>
+      <div className="hero__bells">
+        {Array.from({ length: 3 }, (_, index) => (
+          <span key={index} className="hero__bell">
+            <i />
+          </span>
+        ))}
+      </div>
+      <div className="hero__silhouette">
+        <span />
+        <span />
+        <span />
+      </div>
+    </div>
+  );
+}
+
+function SparkleField() {
+  return (
+    <div className="sparkles" aria-hidden="true">
+      {sparkleItems.map((sparkle) => (
+        <span
+          key={sparkle.id}
+          className="sparkle"
+          style={{
+            left: sparkle.left,
+            animationDelay: sparkle.delay,
+            animationDuration: sparkle.duration,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function FloatingNav({ links, buttonLabel, buttonTarget }) {
   return (
     <div className="floating-nav">
@@ -60,8 +115,10 @@ function FloatingNav({ links, buttonLabel, buttonTarget }) {
 
 function Hero({ couple, event, venue, buttons, heroImages }) {
   return (
-    <section className="hero" id="home">
+    <section className="hero reveal-on-scroll is-visible" id="home">
       <div className="hero__backdrop" />
+      <TempleDecor />
+      <SparkleField />
       <div className="hero__content">
         <div className="hero__ornament" aria-hidden="true">
           <span />
@@ -96,6 +153,10 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
             {buttons.secondary.label}
           </a>
         </div>
+        <div className="hero__scroll-cue" aria-hidden="true">
+          <span>Scroll for the celebration</span>
+          <i />
+        </div>
       </div>
       <div className="hero__visuals" aria-hidden="true">
         <figure className="hero__frame hero__frame--main">
@@ -111,7 +172,7 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
 
 function Story({ story }) {
   return (
-    <section className="story panel" id="story">
+    <section className="story panel reveal-on-scroll" id="story">
       <SectionTitle eyebrow={story.eyebrow} title={story.title} body={story.intro} />
       <div className="story__grid">
         {story.paragraphs.map((paragraph) => (
@@ -140,7 +201,7 @@ function CoupleCard({ person }) {
 
 function CoupleSection({ couple }) {
   return (
-    <section className="couple panel" id="couple">
+    <section className="couple panel reveal-on-scroll" id="couple">
       <SectionTitle
         eyebrow={couple.sectionEyebrow}
         title={couple.sectionTitle}
@@ -173,7 +234,7 @@ function CoupleSection({ couple }) {
 
 function Timeline({ schedule }) {
   return (
-    <section className="timeline panel" id="schedule">
+    <section className="timeline panel reveal-on-scroll" id="schedule">
       <SectionTitle
         eyebrow={schedule.eyebrow}
         title={schedule.title}
@@ -198,7 +259,7 @@ function VenueCard({ venue }) {
   const mapEmbedUrl = buildMapEmbedUrl(venue);
 
   return (
-    <section className="venue panel" id="venue">
+    <section className="venue panel reveal-on-scroll" id="venue">
       <div className="venue__card">
         <SectionTitle eyebrow={venue.eyebrow} title={venue.title} body={venue.description} />
         <div className="venue__content">
@@ -234,11 +295,16 @@ function VenueCard({ venue }) {
 
 function Gallery({ gallery }) {
   return (
-    <section className="gallery panel" id="gallery">
+    <section className="gallery panel reveal-on-scroll" id="gallery">
       <SectionTitle eyebrow={gallery.eyebrow} title={gallery.title} body={gallery.description} />
       <div className={`gallery__grid gallery__grid--${gallery.variant}`}>
-        {gallery.images.map((image) => (
-          <figure key={image.src} className="gallery__item">
+        {gallery.images.map((image, index) => (
+          <figure
+            key={image.src}
+            className="gallery__item"
+            style={{ '--gallery-rotate': `${index % 2 === 0 ? -1 : 1.2}deg` }}
+          >
+            <span className="gallery__frame-glow" aria-hidden="true" />
             <img src={withBasePath(image.src)} alt={image.alt} loading="lazy" />
           </figure>
         ))}
@@ -249,7 +315,7 @@ function Gallery({ gallery }) {
 
 function Footer({ contact, event }) {
   return (
-    <footer className="footer" id="contact">
+    <footer className="footer reveal-on-scroll" id="contact">
       <p className="eyebrow">{contact.eyebrow}</p>
       <h2>{contact.title}</h2>
       <p>{contact.description}</p>
@@ -265,6 +331,36 @@ function Footer({ contact, event }) {
 function App() {
   const { theme, nav, hero, couple, event, venue, story, schedule, gallery, contact } =
     siteContent;
+
+  useEffect(() => {
+    const revealItems = document.querySelectorAll('.reveal-on-scroll');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+
+    const updateScrollShift = () => {
+      const shift = Math.min(window.scrollY * 0.08, 32);
+      document.documentElement.style.setProperty('--scroll-shift', `${shift}px`);
+    };
+
+    updateScrollShift();
+    window.addEventListener('scroll', updateScrollShift, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', updateScrollShift);
+    };
+  }, []);
 
   const themeStyles = {
     '--color-bg': theme.colors.background,
@@ -284,11 +380,13 @@ function App() {
 
   return (
     <div className="app-shell" style={themeStyles}>
-      <FloatingNav
-        links={nav.links}
-        buttonLabel={nav.mapButtonLabel}
-        buttonTarget={venue.mapUrl}
-      />
+      <div className="reveal-on-scroll is-visible">
+        <FloatingNav
+          links={nav.links}
+          buttonLabel={nav.mapButtonLabel}
+          buttonTarget={venue.mapUrl}
+        />
+      </div>
       <main className="page-shell">
         <Hero
           couple={couple}
