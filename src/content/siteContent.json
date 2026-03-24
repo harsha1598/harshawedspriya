@@ -42,6 +42,15 @@
       "secondary": { "src": "/images/couple-1.jpg" }
     }
   },
+  "music": {
+    "enabled": true,
+    "src": "/music/wedding-theme.mp3",
+    "label": "Music",
+    "playLabel": "Play",
+    "pauseLabel": "Pause",
+    "fallbackLabel": "Add track to public/music",
+    "volume": 0.6
+  },
   "couple": {
     "enabled": true,
     "brideName": "Raju Lakshmi Priyanka",

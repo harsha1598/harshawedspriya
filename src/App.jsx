@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import siteContent from './content/siteContent.json';
 
 const fontOptions = {
@@ -80,6 +80,88 @@ function FloatingNav({ links, buttonLabel, buttonTarget }) {
       <a className="button button--ghost" href={buttonTarget} target="_blank" rel="noreferrer">
         {buttonLabel}
       </a>
+    </div>
+  );
+}
+
+function MusicPlayer({ music }) {
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return undefined;
+    }
+
+    audio.volume = music.volume ?? 0.35;
+
+    const handleEnded = () => setIsPlaying(false);
+    const handlePause = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
+    const handleError = () => {
+      setHasError(true);
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('error', handleError);
+
+    return () => {
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('error', handleError);
+    };
+  }, [music.volume]);
+
+  if (!music.enabled) {
+    return null;
+  }
+
+  const handleToggle = async () => {
+    const audio = audioRef.current;
+
+    if (!audio || hasError) {
+      return;
+    }
+
+    try {
+      if (audio.paused) {
+        await audio.play();
+      } else {
+        audio.pause();
+      }
+    } catch {
+      setHasError(true);
+    }
+  };
+
+  return (
+    <div className="music-player reveal-on-scroll is-visible">
+      <button
+        type="button"
+        className={`music-player__button ${isPlaying ? 'is-playing' : ''}`}
+        onClick={handleToggle}
+        disabled={hasError}
+        aria-pressed={isPlaying}
+        aria-label={isPlaying ? 'Pause background music' : 'Play background music'}
+      >
+        <span className="music-player__icon" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className="music-player__copy">
+          <strong>{music.label}</strong>
+          <span>{hasError ? music.fallbackLabel : isPlaying ? music.pauseLabel : music.playLabel}</span>
+        </span>
+      </button>
+      <audio ref={audioRef} loop preload="metadata" src={withBasePath(music.src)} />
     </div>
   );
 }
@@ -308,7 +390,7 @@ function Footer({ contact, event }) {
 }
 
 function App() {
-  const { theme, nav, hero, couple, event, venue, story, schedule, gallery, contact } =
+  const { theme, nav, hero, music, couple, event, venue, story, schedule, gallery, contact } =
     siteContent;
 
   useEffect(() => {
@@ -366,6 +448,7 @@ function App() {
           buttonTarget={venue.mapUrl}
         />
       </div>
+      <MusicPlayer music={music} />
       <main className="page-shell">
         <Hero
           couple={couple}
