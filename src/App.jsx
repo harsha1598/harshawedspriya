@@ -152,13 +152,7 @@ function MusicPlayer({ music }) {
         aria-label={isPlaying ? 'Pause background music' : 'Play background music'}
       >
         <span className="music-player__icon" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className="music-player__copy">
-          <strong>{music.label}</strong>
-          <span>{hasError ? music.fallbackLabel : isPlaying ? music.pauseLabel : music.playLabel}</span>
+          <span className={`music-player__glyph ${isPlaying ? 'is-pause' : 'is-play'}`} />
         </span>
       </button>
       <audio ref={audioRef} loop preload="metadata" src={withBasePath(music.src)} />
