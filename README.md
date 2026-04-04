@@ -2,6 +2,32 @@
 
 A cinematic single-page wedding invitation website built with React and Vite.
 
+## Project Structure
+
+```
+wedding/
+├── .git/                          # Git repository
+├── .github/                       # GitHub Actions workflows
+├── .gitignore                     # Git ignore rules
+├── .vscode/                       # VS Code settings and MCP config
+├── dist/                          # Build output directory
+├── index.html                     # Main HTML entry point
+├── node_modules/                  # Dependencies
+├── package-lock.json              # Lockfile for dependencies
+├── package.json                   # Project configuration and scripts
+├── public/                        # Static assets
+│   ├── images/                    # Wedding photos and gallery images
+│   └── music/                     # Wedding music files
+├── README.md                      # This file
+├── src/                           # Source code
+│   ├── App.jsx                    # Main React application component
+│   ├── content/                   # Content configuration
+│   │   └── siteContent.json       # Wedding details and customization data
+│   ├── main.jsx                   # React application entry point
+│   └── styles.css                 # Global styles
+└── vite.config.js                 # Vite build configuration
+```
+
 ## Run locally
 
 ```bash

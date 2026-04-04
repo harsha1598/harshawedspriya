@@ -163,7 +163,13 @@ function MusicPlayer({ music }) {
 function Hero({ couple, event, venue, buttons, heroImages }) {
   return (
     <section className="hero reveal-on-scroll is-visible" id="home">
+      <div className="hero__curtain-track" aria-hidden="true">
+        <span className="hero__curtain hero__curtain--left" />
+        <span className="hero__curtain hero__curtain--right" />
+      </div>
       <div className="hero__backdrop" />
+      <div className="hero__veil hero__veil--left" aria-hidden="true" />
+      <div className="hero__veil hero__veil--right" aria-hidden="true" />
       <div className="hero__light-rays" aria-hidden="true">
         <span />
         <span />
@@ -214,12 +220,16 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
         </div>
       </div>
       <div className="hero__visuals" aria-hidden="true">
-        <figure className="hero__frame hero__frame--main">
-          <img src={withBasePath(heroImages.primary.src)} alt="" />
-        </figure>
-        <figure className="hero__frame hero__frame--accent">
-          <img src={withBasePath(heroImages.secondary.src)} alt="" />
-        </figure>
+        <div className="hero__photo-stack">
+          <figure className="hero__frame hero__frame--main" data-tilt>
+            <img src={withBasePath(heroImages.primary.src)} alt="" />
+          </figure>
+          <figure className="hero__frame hero__frame--accent" data-tilt>
+            <img src={withBasePath(heroImages.secondary.src)} alt="" />
+          </figure>
+          <span className="hero__orbit hero__orbit--one" />
+          <span className="hero__orbit hero__orbit--two" />
+        </div>
       </div>
     </section>
   );
@@ -241,7 +251,7 @@ function Story({ story }) {
 
 function CoupleCard({ person }) {
   return (
-    <article className="couple-card">
+    <article className="couple-card" data-tilt>
       <div className="couple-card__image">
         <img src={withBasePath(person.photo)} alt={person.alt} loading="lazy" />
       </div>
@@ -297,7 +307,7 @@ function Timeline({ schedule }) {
       />
       <div className="timeline__list">
         {schedule.events.map((item) => (
-          <article className="timeline__item" key={`${item.time}-${item.title}`}>
+          <article className="timeline__item" key={`${item.time}-${item.title}`} data-tilt>
             <p className="timeline__time">{item.time}</p>
             <div>
               <h3>{item.title}</h3>
@@ -358,6 +368,7 @@ function Gallery({ gallery }) {
             key={image.src}
             className="gallery__item"
             style={{ '--gallery-rotate': `${index % 2 === 0 ? -1 : 1.2}deg` }}
+            data-tilt
           >
             <span className="gallery__frame-glow" aria-hidden="true" />
             <img src={withBasePath(image.src)} alt={image.alt} loading="lazy" />
@@ -386,9 +397,14 @@ function Footer({ contact, event }) {
 function App() {
   const { theme, nav, hero, music, couple, event, venue, story, schedule, gallery, contact } =
     siteContent;
+  const [isCurtainOpen, setIsCurtainOpen] = useState(false);
 
   useEffect(() => {
     const revealItems = document.querySelectorAll('.reveal-on-scroll');
+    const tiltItems = document.querySelectorAll('[data-tilt]');
+    const heroElement = document.querySelector('.hero');
+    let curtainTimer;
+    let frameId;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -403,17 +419,76 @@ function App() {
 
     revealItems.forEach((item) => observer.observe(item));
 
-    const updateScrollShift = () => {
-      const shift = Math.min(window.scrollY * 0.08, 32);
-      document.documentElement.style.setProperty('--scroll-shift', `${shift}px`);
+    const resetTilt = (element) => {
+      element.style.setProperty('--tilt-x', '0deg');
+      element.style.setProperty('--tilt-y', '0deg');
+      element.style.setProperty('--glow-x', '50%');
+      element.style.setProperty('--glow-y', '50%');
     };
+
+    const handlePointerMove = (event) => {
+      const element = event.currentTarget;
+      const rect = element.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const tiltY = (x - 0.5) * 10;
+      const tiltX = (0.5 - y) * 10;
+
+      element.style.setProperty('--tilt-x', `${tiltX.toFixed(2)}deg`);
+      element.style.setProperty('--tilt-y', `${tiltY.toFixed(2)}deg`);
+      element.style.setProperty('--glow-x', `${(x * 100).toFixed(2)}%`);
+      element.style.setProperty('--glow-y', `${(y * 100).toFixed(2)}%`);
+    };
+
+    const tiltCleanup = [];
+
+    tiltItems.forEach((item) => {
+      resetTilt(item);
+      const handlePointerLeave = () => resetTilt(item);
+      item.addEventListener('pointermove', handlePointerMove);
+      item.addEventListener('pointerleave', handlePointerLeave);
+      tiltCleanup.push(() => {
+        item.removeEventListener('pointermove', handlePointerMove);
+        item.removeEventListener('pointerleave', handlePointerLeave);
+        resetTilt(item);
+      });
+    });
+
+    const updateScrollShift = () => {
+      const root = document.documentElement;
+      const scrollTop = window.scrollY;
+      const shift = Math.min(scrollTop * 0.08, 32);
+      const globalDepth = Math.min(scrollTop * 0.05, 26);
+      let heroProgress = 0;
+
+      if (heroElement) {
+        const rect = heroElement.getBoundingClientRect();
+        const distance = Math.max(window.innerHeight + rect.height, 1);
+        heroProgress = Math.min(Math.max((window.innerHeight - rect.top) / distance, 0), 1);
+      }
+
+      root.style.setProperty('--scroll-shift', `${shift}px`);
+      root.style.setProperty('--page-depth', `${globalDepth.toFixed(2)}px`);
+      root.style.setProperty('--hero-progress', heroProgress.toFixed(3));
+    };
+
+    frameId = window.requestAnimationFrame(() => {
+      curtainTimer = window.setTimeout(() => {
+        setIsCurtainOpen(true);
+      }, 180);
+    });
 
     updateScrollShift();
     window.addEventListener('scroll', updateScrollShift, { passive: true });
+    window.addEventListener('resize', updateScrollShift);
 
     return () => {
       observer.disconnect();
+      tiltCleanup.forEach((cleanup) => cleanup());
       window.removeEventListener('scroll', updateScrollShift);
+      window.removeEventListener('resize', updateScrollShift);
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(curtainTimer);
     };
   }, []);
 
@@ -434,7 +509,7 @@ function App() {
   };
 
   return (
-    <div className="app-shell" style={themeStyles}>
+    <div className={`app-shell ${isCurtainOpen ? 'is-curtain-open' : ''}`} style={themeStyles}>
       <div className="reveal-on-scroll is-visible">
         <FloatingNav
           links={nav.links}
