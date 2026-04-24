@@ -240,11 +240,15 @@ function Story({ story }) {
     <section className="story panel reveal-on-scroll" id="story">
       <SectionTitle eyebrow={story.eyebrow} title={story.title} body={story.intro} />
       <div className="story__grid">
-        {story.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
+        <article className="story__card" data-tilt>
+          <div className="story__body">
+            {story.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+          <blockquote className="story__quote">{story.quote}</blockquote>
+        </article>
       </div>
-      <blockquote>{story.quote}</blockquote>
     </section>
   );
 }
@@ -253,7 +257,12 @@ function CoupleCard({ person }) {
   return (
     <article className="couple-card" data-tilt>
       <div className="couple-card__image">
-        <img src={withBasePath(person.photo)} alt={person.alt} loading="lazy" />
+        <img
+          src={withBasePath(person.photo)}
+          alt={person.alt}
+          loading="lazy"
+          style={person.photoPosition ? { objectPosition: person.photoPosition } : undefined}
+        />
       </div>
       <div className="couple-card__body">
         <p className="eyebrow">{person.role}</p>
@@ -280,6 +289,7 @@ function CoupleSection({ couple }) {
             name: couple.brideName,
             description: couple.brideDescription,
             photo: couple.bridePhoto,
+            photoPosition: couple.bridePhotoPosition,
             alt: `${couple.brideName} portrait`,
           }}
         />
@@ -289,6 +299,7 @@ function CoupleSection({ couple }) {
             name: couple.groomName,
             description: couple.groomDescription,
             photo: couple.groomPhoto,
+            photoPosition: couple.groomPhotoPosition,
             alt: `${couple.groomName} portrait`,
           }}
         />
@@ -366,8 +377,15 @@ function Gallery({ gallery }) {
         {gallery.images.map((image, index) => (
           <figure
             key={image.src}
-            className="gallery__item"
-            style={{ '--gallery-rotate': `${index % 2 === 0 ? -1 : 1.2}deg` }}
+            className={`gallery__item ${
+              (image.width ?? 1) > (image.height ?? 1)
+                ? 'gallery__item--landscape'
+                : 'gallery__item--portrait'
+            }`}
+            style={{
+              '--gallery-rotate': `${index % 2 === 0 ? -1 : 1.2}deg`,
+              '--gallery-delay': `${index * 0.45}s`,
+            }}
             data-tilt
           >
             <span className="gallery__frame-glow" aria-hidden="true" />

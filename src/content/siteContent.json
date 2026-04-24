@@ -31,15 +31,15 @@
     ]
   },
   "hero": {
-    "kicker": "Mangala Vaidika Invitation",
+    "kicker": "Wedding Invitation",
     "subKicker": "",
     "buttons": {
       "primary": { "label": "See The Celebration", "href": "#schedule" },
       "secondary": { "label": "Find The Venue", "href": "#venue" }
     },
     "images": {
-      "primary": { "src": "/images/couple-2.jpg" },
-      "secondary": { "src": "/images/couple-1.jpg" }
+      "primary": { "src": "/images/pre-wed/pre-wed-2.jpeg" },
+      "secondary": { "src": "/images/pre-wed/pre-wed-1.png" }
     }
   },
   "music": {
@@ -58,7 +58,9 @@
     "brideDescription": "A joyful dreamer with a love for quiet mornings, handwritten notes, and the kind of laughter that fills a room.",
     "groomDescription": "A calm romantic with a love for music, sunsets, and making every ordinary day feel just a little more beautiful.",
     "bridePhoto": "/images/priya-bride.jpg",
+    "bridePhotoPosition": "center 28%",
     "groomPhoto": "/images/groom-main.JPG",
+    "groomPhotoPosition": "center 18%",
     "sectionEyebrow": "The Couple",
     "sectionTitle": "Two hearts, one unforgettable beginning",
     "sectionBody": "A warm celebration of love, family, and the beautiful life ahead."
@@ -118,10 +120,14 @@
     "description": "A romantic collage of memories, companionship, and the quiet magic of growing together over the years.",
     "variant": "stacked",
     "images": [
-      { "src": "/images/couple-1.jpg", "alt": "Couple walking together" },
-      { "src": "/images/couple-2.jpg", "alt": "Hands holding flowers" },
-      { "src": "/images/couple-3.jpg", "alt": "Elegant wedding decor" },
-      { "src": "/images/couple-4.jpg", "alt": "Romantic portrait silhouette" }
+      { "src": "/images/pre-wed/pre-wed-1.png", "alt": "Wide pre-wedding portrait", "width": 2528, "height": 1686 },
+      { "src": "/images/pre-wed/pre-wed-2.jpeg", "alt": "Pre-wedding moment together", "width": 1066, "height": 1600 },
+      { "src": "/images/couple-1.jpg", "alt": "Couple walking together", "width": 932, "height": 1600 },
+      { "src": "/images/pre-wed/pre-wed-3.jpeg", "alt": "Couple portrait during pre-wedding shoot", "width": 1066, "height": 1600 },
+      { "src": "/images/couple-2.jpg", "alt": "Hands holding flowers", "width": 720, "height": 1199 },
+      { "src": "/images/pre-wed/pre-wed-4.jpeg", "alt": "Candid pre-wedding memory", "width": 1066, "height": 1600 },
+      { "src": "/images/couple-3.jpg", "alt": "Elegant wedding decor", "width": 960, "height": 1280 },
+      { "src": "/images/pre-wed/pre-wed-5.jpeg", "alt": "Romantic pre-wedding photo", "width": 1066, "height": 1600 }
     ]
   },
   "contact": {
