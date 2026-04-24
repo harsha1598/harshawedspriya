@@ -1180,6 +1180,46 @@ img {
     height: 18rem;
   }
 
+  .gallery__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+
+  .gallery__grid--stacked .gallery__item--landscape,
+  .gallery__grid--stacked .gallery__item--portrait {
+    grid-column: auto;
+  }
+
+  .gallery__grid--stacked .gallery__item--portrait {
+    aspect-ratio: 0.92;
+  }
+
+  .gallery__grid--stacked .gallery__item--landscape {
+    aspect-ratio: 1.08;
+  }
+
+  .gallery__item {
+    border-radius: 22px;
+    transform: none;
+  }
+
+  .gallery__item:nth-of-type(4n + 1),
+  .gallery__item:nth-of-type(4n + 2),
+  .gallery__item:nth-of-type(4n + 3),
+  .gallery__item:nth-of-type(4n + 4) {
+    margin-top: 0;
+    border-radius: 22px;
+  }
+
+  .gallery__item img {
+    transform: scale(1.01);
+  }
+
+  .gallery__frame-glow {
+    inset: 0.45rem;
+    border-radius: 17px;
+  }
+
   .gallery__item::before,
   .gallery__item::after {
     width: 2.35rem;
