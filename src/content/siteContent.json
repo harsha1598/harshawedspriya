@@ -49,7 +49,7 @@
     "playLabel": "Play",
     "pauseLabel": "Pause",
     "fallbackLabel": "Add track to public/music",
-    "volume": 0.6
+    "volume": 0.8
   },
   "couple": {
     "enabled": true,
