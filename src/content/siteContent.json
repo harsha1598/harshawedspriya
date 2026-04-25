@@ -76,7 +76,7 @@
     "enabled": true,
     "eyebrow": "Venue Details",
     "title": "An evening wrapped in lights, roses, and celebration",
-    "description": "Join us at a romantic lakeside venue designed for a candlelit ceremony and a joyful reception under the stars.",
+    "description": "Join us at the venue designed for a candlelit ceremony and a joyful reception under the stars.",
     "name": "TTD Kalyana Mandapam, Vizianagaram",
     "address": "4C56+H92, Ayodya Maidanam Area, Jonnaguddi Area, Vizianagaram, Andhra Pradesh 535002",
     "landmark": "Beside Gurajada Apparao Kala Vedika near SVC Ranjini Theatre Opp to Kota, valet and guest assistance available at the main entrance.",
@@ -122,7 +122,6 @@
     "images": [
       { "src": "/images/pre-wed/pre-wed-1.png", "alt": "Wide pre-wedding portrait", "width": 2528, "height": 1686 },
       { "src": "/images/pre-wed/pre-wed-2.jpeg", "alt": "Pre-wedding moment together", "width": 1066, "height": 1600 },
-      { "src": "/images/couple-1.jpg", "alt": "Couple walking together", "width": 932, "height": 1600 },
       { "src": "/images/pre-wed/pre-wed-3.jpeg", "alt": "Couple portrait during pre-wedding shoot", "width": 1066, "height": 1600 },
       { "src": "/images/couple-2.jpg", "alt": "Hands holding flowers", "width": 720, "height": 1199 },
       { "src": "/images/pre-wed/pre-wed-4.jpeg", "alt": "Candid pre-wedding memory", "width": 1066, "height": 1600 },
