@@ -97,8 +97,18 @@ function MusicPlayer({ music }) {
     }
 
     audio.volume = music.volume ?? 0.35;
+    audio.loop = true;
 
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = async () => {
+      audio.currentTime = 0;
+
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch {
+        setIsPlaying(false);
+      }
+    };
     const handlePause = () => setIsPlaying(false);
     const handlePlay = () => setIsPlaying(true);
     const handleError = () => {
