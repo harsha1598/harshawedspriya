@@ -142,58 +142,60 @@ function MusicPlayer({ music }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const userHasControlRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
-
-    if (!audio) {
-      return undefined;
-    }
+    if (!audio) return undefined;
 
     audio.volume = music.volume ?? 0.35;
     audio.loop = true;
 
-    const handleEnded = async () => {
-      audio.currentTime = 0;
-
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
-    };
     const handlePause = () => setIsPlaying(false);
-    const handlePlay = () => setIsPlaying(true);
-    const handleError = () => {
-      setHasError(true);
-      setIsPlaying(false);
-    };
+    const handlePlay  = () => { setIsPlaying(true); userHasControlRef.current = true; };
+    const handleError = () => { setHasError(true); setIsPlaying(false); };
+    const handleEnded = () => { audio.currentTime = 0; audio.play().catch(() => {}); };
 
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('error', handleError);
+    audio.addEventListener('pause',  handlePause);
+    audio.addEventListener('play',   handlePlay);
+    audio.addEventListener('error',  handleError);
+    audio.addEventListener('ended',  handleEnded);
+
+    // Try immediate autoplay — succeeds on mobile / repeat visitors
+    audio.play().catch(() => {
+      // Blocked by browser. Play on first real user gesture.
+      // NOTE: scroll is NOT a user-activation gesture in Chrome and must not be used.
+      const startOnGesture = (e) => {
+        // Once user has had control once, let the button handle everything
+        if (userHasControlRef.current) return;
+        // If the gesture is on the music button, handleToggle will call play() itself
+        if (e.target?.closest?.('.music-player')) return;
+        audio.play().catch(() => {});
+      };
+      document.addEventListener('click',    startOnGesture);
+      document.addEventListener('touchend', startOnGesture);
+      document.addEventListener('keydown',  startOnGesture);
+      audio._cleanupGesture = () => {
+        document.removeEventListener('click',    startOnGesture);
+        document.removeEventListener('touchend', startOnGesture);
+        document.removeEventListener('keydown',  startOnGesture);
+      };
+    });
 
     return () => {
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('pause',  handlePause);
+      audio.removeEventListener('play',   handlePlay);
+      audio.removeEventListener('error',  handleError);
+      audio.removeEventListener('ended',  handleEnded);
+      if (audio._cleanupGesture) { audio._cleanupGesture(); delete audio._cleanupGesture; }
     };
   }, [music.volume]);
 
-  if (!music.enabled) {
-    return null;
-  }
+  if (!music.enabled) return null;
 
   const handleToggle = async () => {
     const audio = audioRef.current;
-
-    if (!audio || hasError) {
-      return;
-    }
-
+    if (!audio || hasError) return;
     try {
       if (audio.paused) {
         await audio.play();
@@ -219,7 +221,7 @@ function MusicPlayer({ music }) {
           <span className={`music-player__glyph ${isPlaying ? 'is-pause' : 'is-play'}`} />
         </span>
       </button>
-      <audio ref={audioRef} loop preload="metadata" src={withBasePath(music.src)} />
+      <audio ref={audioRef} loop preload="auto" src={withBasePath(music.src)} />
     </div>
   );
 }
