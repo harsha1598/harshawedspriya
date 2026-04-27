@@ -142,7 +142,6 @@ function MusicPlayer({ music }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const userHasControlRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -161,33 +160,15 @@ function MusicPlayer({ music }) {
     audio.addEventListener('error',  handleError);
     audio.addEventListener('ended',  handleEnded);
 
-    // Try immediate autoplay — succeeds on mobile / repeat visitors
-    audio.play().catch(() => {
-      // Blocked by browser. Play on first real user gesture.
-      // NOTE: scroll is NOT a user-activation gesture in Chrome and must not be used.
-      const startOnGesture = (e) => {
-        // Once user has had control once, let the button handle everything
-        if (userHasControlRef.current) return;
-        // If the gesture is on the music button, handleToggle will call play() itself
-        if (e.target?.closest?.('.music-player')) return;
-        audio.play().catch(() => {});
-      };
-      document.addEventListener('click',    startOnGesture);
-      document.addEventListener('touchend', startOnGesture);
-      document.addEventListener('keydown',  startOnGesture);
-      audio._cleanupGesture = () => {
-        document.removeEventListener('click',    startOnGesture);
-        document.removeEventListener('touchend', startOnGesture);
-        document.removeEventListener('keydown',  startOnGesture);
-      };
-    });
+    // Try immediate autoplay on page load — works on mobile and repeat visitors.
+    // Chrome desktop blocks this for new visitors; user can start via the button.
+    audio.play().catch(() => {});
 
     return () => {
       audio.removeEventListener('pause',  handlePause);
       audio.removeEventListener('play',   handlePlay);
       audio.removeEventListener('error',  handleError);
       audio.removeEventListener('ended',  handleEnded);
-      if (audio._cleanupGesture) { audio._cleanupGesture(); delete audio._cleanupGesture; }
     };
   }, [music.volume]);
 
