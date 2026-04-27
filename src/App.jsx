@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import siteContent from './content/siteContent.json';
 
@@ -453,7 +454,7 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
 
   const image = images[index];
 
-  return (
+  return createPortal(
     <div className="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
       <button className="lightbox__backdrop" onClick={onClose} aria-label="Close photo viewer" />
       <div className="lightbox__stage">
@@ -465,8 +466,9 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
         />
         {image.alt ? <p className="lightbox__caption">{image.alt}</p> : null}
       </div>
-      <button className="lightbox__close" onClick={onClose} aria-label="Close">
+      <button className="lightbox__close" onClick={onClose} aria-label="Close photo viewer">
         <span aria-hidden="true">✕</span>
+        <span>Close</span>
       </button>
       {images.length > 1 ? (
         <>
@@ -479,7 +481,8 @@ function Lightbox({ images, index, onClose, onPrev, onNext }) {
           <p className="lightbox__counter">{index + 1} / {images.length}</p>
         </>
       ) : null}
-    </div>
+    </div>,
+    document.body,
   );
 }
 
