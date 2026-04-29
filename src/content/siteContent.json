@@ -1,40 +1,41 @@
 {
   "theme": {
     "colors": {
-      "background": "#f8f0dd",
-      "surface": "rgba(126, 26, 34, 0.08)",
-      "surfaceStrong": "rgba(91, 18, 23, 0.82)",
-      "text": "#4b1816",
-      "muted": "#7b4f33",
-      "accent": "#9f1d22",
-      "accentSoft": "#f1c75b",
-      "line": "rgba(159, 29, 34, 0.18)",
-      "leaf": "#3f6b2a",
-      "leafSoft": "#dfe8c8"
+      "background": "#fdf3e0",
+      "surface": "rgba(160, 21, 32, 0.07)",
+      "surfaceStrong": "rgba(100, 14, 20, 0.85)",
+      "text": "#3a0d10",
+      "muted": "#7a3f20",
+      "accent": "#a01520",
+      "accentSoft": "#f0a916",
+      "leaf": "#1e6b38",
+      "leafSoft": "#c8e8c2",
+      "line": "rgba(160, 21, 32, 0.2)"
     },
     "fonts": {
       "heading": "cormorant",
       "body": "manrope"
     },
-    "heroOverlay": "linear-gradient(180deg, rgba(105, 15, 20, 0.18) 0%, rgba(86, 12, 16, 0.88) 100%)"
+    "heroOverlay": "linear-gradient(180deg, rgba(122, 10, 18, 0.14) 0%, rgba(90, 8, 14, 0.90) 100%)"
   },
   "nav": {
     "brandLabel": "శుభ వివాహ ఆహ్వానం",
+    "brandSubLabel": "శ్రీరస్తు · శుభమస్తు · అవిఘ్నమస్తు",
     "mapButtonLabel": "Open Location",
     "links": [
       { "label": "Home", "href": "#home" },
-      { "label": "Story", "href": "#story" },
+      { "label": "Our Story", "href": "#story" },
       { "label": "Couple", "href": "#couple" },
-      { "label": "Schedule", "href": "#schedule" },
+      { "label": "Ceremonies", "href": "#schedule" },
       { "label": "Venue", "href": "#venue" },
       { "label": "Gallery", "href": "#gallery" }
     ]
   },
   "hero": {
-    "kicker": "Wedding Invitation",
-    "subKicker": "",
+    "kicker": "శుభ వివాహ ఆహ్వానం",
+    "subKicker": "Shubha Vivaha Aahwaanam",
     "buttons": {
-      "primary": { "label": "See The Celebration", "href": "#schedule" },
+      "primary": { "label": "Wedding Ceremonies", "href": "#schedule" },
       "secondary": { "label": "Find The Venue", "href": "#venue" }
     },
     "images": {
@@ -55,82 +56,88 @@
     "enabled": true,
     "brideName": "Raju Lakshmi Priyanka",
     "groomName": "Reddi Harsha Vardhan",
-    "brideDescription": "A joyful dreamer with a love for quiet mornings, handwritten notes, and the kind of laughter that fills a room.",
-    "groomDescription": "A calm romantic with a love for music, sunsets, and making every ordinary day feel just a little more beautiful.",
+    "brideDescription": "A joyful dreamer with a love for quiet mornings, handwritten notes, and the kind of laughter that fills every room she walks into.",
+    "groomDescription": "A calm romantic with a love for music, open skies, and making every ordinary day feel like something worth remembering.",
     "bridePhoto": "/images/priya-bride.jpg",
     "bridePhotoPosition": "center 28%",
     "groomPhoto": "/images/groom-main.JPG",
     "groomPhotoPosition": "center 18%",
-    "sectionEyebrow": "The Couple",
+    "sectionEyebrow": "వధూవరులు",
     "sectionTitle": "Two hearts, one unforgettable beginning",
-    "sectionBody": "A warm celebration of love, family, and the beautiful life ahead."
+    "sectionBody": "A warm Telugu celebration of love, family, and the beautiful life that unfolds together."
   },
   "event": {
     "tagline": "Together with their families",
-    "invitationLine": "invite you to celebrate their wedding and share in an evening filled with love, music, and joy.",
+    "invitationLine": "cordially invite you to grace the auspicious occasion of their wedding and be part of an evening filled with blessings, love, and joy.",
     "fullDate": "Friday, 1 May 2026",
     "ceremonyTime": "7:00 PM onwards",
-    "footerNote": "With love, we cannot wait to celebrate this moment with you."
+    "footerNote": "శుభాకాంక్షలతో — With love and blessings, we cannot wait to celebrate this beautiful moment with you.",
+    "countdownEnabled": true,
+    "countdownTarget": "2026-05-01T17:22:00.000Z",
+    "countdownEyebrow": "వివాహ ముహూర్తం",
+    "countdownTitle": "Counting down to the auspicious moment",
+    "countdownDoneMessage": "❈ శుభ వివాహ ముహూర్తం ❈"
   },
   "venue": {
     "enabled": true,
-    "eyebrow": "Venue Details",
-    "title": "An evening wrapped in lights, roses, and celebration",
-    "description": "Join us at the venue designed for a candlelit ceremony and a joyful reception under the stars.",
+    "eyebrow": "వేడుక స్థలం",
+    "title": "An auspicious evening under the golden mandap",
+    "description": "Join us at a beautifully adorned mandap for a candlelit Telugu wedding ceremony and a joyful reception, surrounded by marigolds and family blessings.",
     "name": "TTD Kalyana Mandapam, Vizianagaram",
     "address": "4C56+H92, Ayodya Maidanam Area, Jonnaguddi Area, Vizianagaram, Andhra Pradesh 535002",
-    "landmark": "Beside Gurajada Apparao Kala Vedika near SVC Ranjini Theatre Opp to Kota, valet and guest assistance available at the main entrance.",
+    "landmark": "Beside Gurajada Apparao Kala Vedika near SVC Ranjini Theatre Opp to Kota. Valet and guest assistance available at the main entrance.",
     "phone": "+91-6303661465",
     "mapUrl": "https://maps.app.goo.gl/TDHyuRU8N9m9nNT18"
   },
   "story": {
     "enabled": true,
-    "eyebrow": "Our Story",
+    "eyebrow": "మా ప్రేమ కథ",
     "title": "From college corridors to a forever promise",
-    "intro": "Their story began as collegemates nearly a decade ago, with familiar smiles, shared classrooms, and conversations that slowly became the best part of each day.",
+    "intro": "Their story began as collegemates nearly a decade ago — with familiar smiles, shared classrooms, and conversations that slowly became the best part of each day.",
     "paragraphs": [
       "Over the years, friendship turned into trust, trust turned into love, and the ordinary moments of college life became the foundation of a bond that only grew stronger with time.",
-      "Now, after around ten years of knowing each other, they step into a new chapter surrounded by family, memories, and the people who have watched their story become something truly unforgettable."
+      "Now, after around ten years of knowing each other, they step into a new chapter — beneath the sacred mandap, surrounded by family, blessings, and the people who have watched their story become something truly unforgettable."
     ],
     "quote": "We found forever in a friendship that began years ago."
   },
   "schedule": {
     "enabled": true,
-    "eyebrow": "Wedding Timeline",
-    "title": "A graceful evening of vows and celebration",
-    "description": "Everything you need for the day, arranged so guests can move through the celebration with ease.",
+    "eyebrow": "వివాహ కార్యక్రమం",
+    "title": "An auspicious evening of vows and celebration",
+    "description": "Join us for a traditional Telugu wedding evening filled with sacred rituals, joyful celebration, and the warmth of family.",
     "events": [
-
       {
         "time": "7:00 PM",
-        "title": "Reception Dinner",
-        "details": ""
+        "title": "Reception & Dinner",
+        "details": "Welcoming guests with warmth, traditional Telugu hospitality, and a grand celebration dinner surrounded by family and loved ones."
       },
       {
         "time": "10:52 PM",
-        "title": "Sumuhurtham",
-        "details": ""
+        "title": "Sumuhurtham — వివాహ ముహూర్తం",
+        "details": "The sacred Telugu wedding ceremony begins at the auspicious muhurtham. Witness the maalaaveduka (garland exchange), talambralu, and the saptapadi vows under the mandap."
       }
     ]
   },
   "gallery": {
     "enabled": true,
-    "eyebrow": "Moments",
+    "eyebrow": "ఫోటో గ్యాలరీ",
     "title": "A decade in moments",
-    "description": "A romantic collage of memories, companionship, and the quiet magic of growing together over the years.",
+    "description": "A romantic collage of memories, togetherness, and the quiet magic of growing alongside each other over the years.",
     "variant": "stacked",
     "images": [
-      { "src": "/images/pre-wed/pre-wed-1.png", "alt": "Wide pre-wedding portrait", "width": 2528, "height": 1686 },
+      { "src": "/images/couple-1.jpg", "alt": "Couple portrait", "width": 1080, "height": 1350 },
       { "src": "/images/pre-wed/pre-wed-2.jpeg", "alt": "Pre-wedding moment together", "width": 1066, "height": 1600 },
       { "src": "/images/pre-wed/pre-wed-3.jpeg", "alt": "Couple portrait during pre-wedding shoot", "width": 1066, "height": 1600 },
-      { "src": "/images/couple-2.jpg", "alt": "Hands holding flowers", "width": 720, "height": 1199 },
+      { "src": "/images/couple-2.jpg", "alt": "Together in celebration", "width": 720, "height": 1199 },
       { "src": "/images/pre-wed/pre-wed-4.jpeg", "alt": "Candid pre-wedding memory", "width": 1066, "height": 1600 },
-      { "src": "/images/couple-3.jpg", "alt": "Elegant wedding decor", "width": 960, "height": 1280 },
-      { "src": "/images/pre-wed/pre-wed-5.jpeg", "alt": "Romantic pre-wedding photo", "width": 1066, "height": 1600 }
+      { "src": "/images/couple-3.jpg", "alt": "Elegant wedding moment", "width": 960, "height": 1280 },
+      { "src": "/images/pre-wed/pre-wed-5.jpeg", "alt": "Romantic pre-wedding photo", "width": 1066, "height": 1600 },
+      { "src": "/images/couple-4.jpg", "alt": "Beautiful couple portrait", "width": 1080, "height": 1350 },
+      { "src": "/images/pre-wed/pre-wed-1.png", "alt": "Wide pre-wedding portrait", "width": 2528, "height": 1686 }
     ]
   },
   "contact": {
-    "eyebrow": "Stay Connected",
+    "eyebrow": "సంప్రదించండి",
     "title": "We would love to celebrate with you",
     "description": "For travel help, arrival coordination, or any guest support, please reach out to the wedding hosts.",
     "phone": "+91-7780716294",

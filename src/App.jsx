@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import siteContent from './content/siteContent.json';
 
@@ -37,6 +38,59 @@ function SectionTitle({ eyebrow, title, body, align = 'left' }) {
   );
 }
 
+function calculateTimeLeft(targetDate) {
+  const diff = new Date(targetDate) - Date.now();
+  if (diff <= 0) return null;
+  return {
+    days: Math.floor(diff / 86400000),
+    hours: Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000) / 60000),
+    seconds: Math.floor((diff % 60000) / 1000),
+  };
+}
+
+const countdownUnits = [
+  { key: 'days',    label: 'Days',    labelTe: 'రోజులు',      pad: false },
+  { key: 'hours',   label: 'Hours',   labelTe: 'గంటలు',       pad: true  },
+  { key: 'minutes', label: 'Minutes', labelTe: 'నిమిషాలు',    pad: true  },
+  { key: 'seconds', label: 'Seconds', labelTe: 'సెకన్లు',     pad: true  },
+];
+
+function CountdownTimer({ event }) {
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(event.countdownTarget));
+
+  useEffect(() => {
+    if (!event.countdownEnabled || !event.countdownTarget) return undefined;
+    const id = setInterval(() => {
+      setTimeLeft(calculateTimeLeft(event.countdownTarget));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [event.countdownTarget, event.countdownEnabled]);
+
+  if (!event.countdownEnabled) return null;
+
+  return (
+    <section className="countdown panel reveal-on-scroll" id="countdown">
+      <SectionTitle eyebrow={event.countdownEyebrow} title={event.countdownTitle} align="center" />
+      {timeLeft ? (
+        <div className="countdown__grid">
+          {countdownUnits.map(({ key, label, labelTe, pad }) => (
+            <div className={`countdown__unit countdown__unit--${key}`} key={key}>
+              <span className="countdown__number">
+                {pad ? String(timeLeft[key]).padStart(2, '0') : timeLeft[key]}
+              </span>
+              <span className="countdown__label">{label}</span>
+              <span className="countdown__label-te">{labelTe}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="countdown__done">{event.countdownDoneMessage}</p>
+      )}
+    </section>
+  );
+}
+
 const sparkleItems = Array.from({ length: 14 }, (_, index) => ({
   id: index,
   left: `${6 + index * 6.4}%`,
@@ -66,9 +120,9 @@ function FloatingNav({ links, buttonLabel, buttonTarget }) {
   return (
     <div className="floating-nav">
       <div className="floating-nav__brand">
-        <span className="floating-nav__brand-mark">||</span>
-        <span>{siteContent.nav.brandLabel}</span>
-        <span className="floating-nav__brand-mark">||</span>
+        <span className="floating-nav__brand-mark" aria-hidden="true">❈</span>
+        <span className="floating-nav__brand-sub">{siteContent.nav.brandSubLabel}</span>
+        <span className="floating-nav__brand-mark" aria-hidden="true">❈</span>
       </div>
       <nav aria-label="Section navigation">
         {links.map((link) => (
@@ -91,55 +145,38 @@ function MusicPlayer({ music }) {
 
   useEffect(() => {
     const audio = audioRef.current;
-
-    if (!audio) {
-      return undefined;
-    }
+    if (!audio) return undefined;
 
     audio.volume = music.volume ?? 0.35;
     audio.loop = true;
 
-    const handleEnded = async () => {
-      audio.currentTime = 0;
-
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
-    };
     const handlePause = () => setIsPlaying(false);
-    const handlePlay = () => setIsPlaying(true);
-    const handleError = () => {
-      setHasError(true);
-      setIsPlaying(false);
-    };
+    const handlePlay  = () => { setIsPlaying(true); userHasControlRef.current = true; };
+    const handleError = () => { setHasError(true); setIsPlaying(false); };
+    const handleEnded = () => { audio.currentTime = 0; audio.play().catch(() => {}); };
 
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('error', handleError);
+    audio.addEventListener('pause',  handlePause);
+    audio.addEventListener('play',   handlePlay);
+    audio.addEventListener('error',  handleError);
+    audio.addEventListener('ended',  handleEnded);
+
+    // Try immediate autoplay on page load — works on mobile and repeat visitors.
+    // Chrome desktop blocks this for new visitors; user can start via the button.
+    audio.play().catch(() => {});
 
     return () => {
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('pause',  handlePause);
+      audio.removeEventListener('play',   handlePlay);
+      audio.removeEventListener('error',  handleError);
+      audio.removeEventListener('ended',  handleEnded);
     };
   }, [music.volume]);
 
-  if (!music.enabled) {
-    return null;
-  }
+  if (!music.enabled) return null;
 
   const handleToggle = async () => {
     const audio = audioRef.current;
-
-    if (!audio || hasError) {
-      return;
-    }
-
+    if (!audio || hasError) return;
     try {
       if (audio.paused) {
         await audio.play();
@@ -165,7 +202,7 @@ function MusicPlayer({ music }) {
           <span className={`music-player__glyph ${isPlaying ? 'is-pause' : 'is-play'}`} />
         </span>
       </button>
-      <audio ref={audioRef} loop preload="metadata" src={withBasePath(music.src)} />
+      <audio ref={audioRef} loop preload="auto" src={withBasePath(music.src)} />
     </div>
   );
 }
@@ -200,10 +237,12 @@ function Hero({ couple, event, venue, buttons, heroImages }) {
         <p className="eyebrow">{event.tagline}</p>
         <h1>
           <span>{couple.brideName}</span>
-          <span className="hero__ampersand">&amp;</span>
+          <span className="hero__ampersand">&#x26;</span>
           <span>{couple.groomName}</span>
         </h1>
-        <p className="hero__subtitle">{siteContent.hero.subKicker}</p>
+        {siteContent.hero.subKicker ? (
+          <p className="hero__subtitle">{siteContent.hero.subKicker}</p>
+        ) : null}
         <p className="hero__date">{event.fullDate}</p>
         <p className="hero__lead">{event.invitationLine}</p>
         <div className="hero__meta">
@@ -295,7 +334,7 @@ function CoupleSection({ couple }) {
       <div className="couple__grid">
         <CoupleCard
           person={{
-            role: 'The Bride',
+            role: 'వధువు — The Bride',
             name: couple.brideName,
             description: couple.brideDescription,
             photo: couple.bridePhoto,
@@ -305,7 +344,7 @@ function CoupleSection({ couple }) {
         />
         <CoupleCard
           person={{
-            role: 'The Groom',
+            role: 'వరుడు — The Groom',
             name: couple.groomName,
             description: couple.groomDescription,
             photo: couple.groomPhoto,
@@ -379,12 +418,72 @@ function VenueCard({ venue }) {
   );
 }
 
+function Lightbox({ images, index, onClose, onPrev, onNext }) {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [onClose, onPrev, onNext]);
+
+  const image = images[index];
+
+  return createPortal(
+    <div className="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button className="lightbox__backdrop" onClick={onClose} aria-label="Close photo viewer" />
+      <div className="lightbox__stage">
+        <img
+          className="lightbox__img"
+          src={withBasePath(image.src)}
+          alt={image.alt}
+          key={image.src}
+        />
+        {image.alt ? <p className="lightbox__caption">{image.alt}</p> : null}
+      </div>
+      <button className="lightbox__close" onClick={onClose} aria-label="Close photo viewer">
+        <span aria-hidden="true">✕</span>
+        <span>Close</span>
+      </button>
+      {images.length > 1 ? (
+        <>
+          <button className="lightbox__nav lightbox__nav--prev" onClick={onPrev} aria-label="Previous photo">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button className="lightbox__nav lightbox__nav--next" onClick={onNext} aria-label="Next photo">
+            <span aria-hidden="true">›</span>
+          </button>
+          <p className="lightbox__counter">{index + 1} / {images.length}</p>
+        </>
+      ) : null}
+    </div>,
+    document.body,
+  );
+}
+
 function Gallery({ gallery }) {
+  const images = gallery.images;
+  const count = images.length;
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  const openAt = (index) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+  const prevImage = () => setLightboxIndex((i) => (i - 1 + count) % count);
+  const nextImage = () => setLightboxIndex((i) => (i + 1) % count);
+
   return (
     <section className="gallery panel reveal-on-scroll" id="gallery">
       <SectionTitle eyebrow={gallery.eyebrow} title={gallery.title} body={gallery.description} />
       <div className={`gallery__grid gallery__grid--${gallery.variant}`}>
-        {gallery.images.map((image, index) => (
+        {images.map((image, index) => (
           <figure
             key={image.src}
             className={`gallery__item ${
@@ -397,12 +496,27 @@ function Gallery({ gallery }) {
               '--gallery-delay': `${index * 0.45}s`,
             }}
             data-tilt
+            role="button"
+            tabIndex={0}
+            onClick={() => openAt(index)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') openAt(index); }}
+            aria-label={`View photo: ${image.alt}`}
           >
             <span className="gallery__frame-glow" aria-hidden="true" />
             <img src={withBasePath(image.src)} alt={image.alt} loading="lazy" />
+            <span className="gallery__open-hint" aria-hidden="true"><span>View</span></span>
           </figure>
         ))}
       </div>
+      {lightboxIndex !== null ? (
+        <Lightbox
+          images={images}
+          index={lightboxIndex}
+          onClose={closeLightbox}
+          onPrev={prevImage}
+          onNext={nextImage}
+        />
+      ) : null}
     </section>
   );
 }
@@ -410,6 +524,9 @@ function Gallery({ gallery }) {
 function Footer({ contact, event }) {
   return (
     <footer className="footer reveal-on-scroll" id="contact">
+      <div className="footer__mandala" aria-hidden="true">
+        <span>❈</span>
+      </div>
       <p className="eyebrow">{contact.eyebrow}</p>
       <h2>{contact.title}</h2>
       <p>{contact.description}</p>
@@ -554,6 +671,7 @@ function App() {
           buttons={hero.buttons}
           heroImages={hero.images}
         />
+        <CountdownTimer event={event} />
         {story.enabled ? <Story story={story} /> : null}
         {couple.enabled ? <CoupleSection couple={couple} /> : null}
         {schedule.enabled ? <Timeline schedule={schedule} /> : null}
